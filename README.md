@@ -5,9 +5,7 @@ Based on
 
 ```
 @Article{Rozenberg2019,
-author={Rozenberg, M. J.
-and Schneegans, O.
-and Stoliar, P.},
+author={Rozenberg, M. J.  and Schneegans, O.  and Stoliar, P.},
 title={An ultra-compact leaky-integrate-and-fire model for building spiking neural networks},
 journal={Scientific Reports},
 year={2019},
