@@ -1,22 +1,26 @@
-static const uint8_t PWM_PIN = 9;  // PWM output pin
+static const uint8_t OUTPUT_PIN = 9;
 
 static const uint32_t SPIKE_DURATION_USEC = 500;
 
-const float FREQ_HZ = 40;
+const uint32_t FREQ_HZ = 40;
 
 void setup()
 {
-    pinMode(PWM_PIN, OUTPUT);
+    pinMode(OUTPUT_PIN, OUTPUT);
 }
 
 void loop()
 { 
-    // Delay for inter-spike interval
-    delayMicroseconds(1'000'000 / FREQ_HZ);
+    const auto usec_curr = micros();
+    static uint32_t _usec_prev;
 
-    // Send spike
-    digitalWrite(PWM_PIN, HIGH);
-    delayMicroseconds(SPIKE_DURATION_USEC);
-    digitalWrite(PWM_PIN, LOW);
+    // Spike at an interval determined by FREQ_HZ 
+    if (usec_curr - _usec_prev > 1'000'000/FREQ_HZ) {
 
+        digitalWrite(OUTPUT_PIN, HIGH);
+        delayMicroseconds(SPIKE_DURATION_USEC);
+        digitalWrite(OUTPUT_PIN, LOW);
+
+        _usec_prev = usec_curr;
+    }
 }
