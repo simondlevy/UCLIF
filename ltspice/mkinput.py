@@ -13,5 +13,8 @@ v[t100>9] = 0
 
 t = t.astype(float) / 1000
 
-plt.plot(t, v)
-plt.show()
+#plt.plot(t, v)
+#plt.show()
+
+for tval, vval in zip(t, v):
+    print('%fm %d' % (tval, vval))
