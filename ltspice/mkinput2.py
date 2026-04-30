@@ -27,6 +27,7 @@ v = np.zeros(n)
 v[p] = 3.3
 
 plt.figure(figsize=(20, 6))
-plt.plot(t, v)
+plt.plot(t / 1000, v)
+plt.xlabel('Time (msec)')
 plt.ylabel('Volts')
 plt.show()
