@@ -4,21 +4,26 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
 
-NSAMP = 5000
+SAMP_FREQ_HZ = 1e6
+DUR_MSEC = 1.5
+
 FREQ_START_HZ = 2
 FREQ_END_HZ= 10
+
 SPIKE_VOLTS = 3.3
 SPIKE_DUR_USEC = 50
 
-t = np.arange(NSAMP)
+n = int(SAMP_FREQ_HZ * DUR_MSEC / 1000)
 
-f = np.linspace(FREQ_START_HZ, FREQ_END_HZ, NSAMP)
+t = np.arange(n)
 
-s = np.sin(2 * np.pi * t *  f / NSAMP)
+f = np.linspace(FREQ_START_HZ, FREQ_END_HZ, n)
+
+s = np.sin(2 * np.pi * t *  f / n)
 
 p = signal.find_peaks(s)[0]
 
-v = np.zeros(NSAMP)
+v = np.zeros(n)
 v[p] = 3.3
 
 plt.figure(figsize=(20, 6))
