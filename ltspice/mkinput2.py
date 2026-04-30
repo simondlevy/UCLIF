@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 from scipy import signal
 
 SAMP_FREQ_HZ = 1e6
-DUR_MSEC = 1.5
+DUR_MSEC = 2.0
 
-FREQ_START_HZ = 2
+FREQ_START_HZ = 10  # 2
 FREQ_END_HZ= 10
 
 SPIKE_VOLTS = 3.3
