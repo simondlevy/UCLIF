@@ -2,19 +2,68 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import signal
+import argparse
+from argparse import ArgumentDefaultsHelpFormatter
 
-t = np.arange(15000)
+def freq_to_count(freq, args):
+    return freq * args.t_dur / 1000
 
-t100 = t % 200
 
-v = t // 2500 + 2
+def main():
 
-v[t100>9] = 0
+    parser = argparse.ArgumentParser(
+                formatter_class=ArgumentDefaultsHelpFormatter)
 
-t = t.astype(float) / 1000
+    parser.add_argument('-p', '--plot', action='store_true',
+                           help='Plot the signal')
 
-plt.plot(t, v)
-plt.show()
+    parser.add_argument('-v', '--vmax', default=3.3,
+            type=float, help='Max voltage')
 
-for tval, vval in zip(t, v):
-    print('%fm %d' % (tval, vval))
+    parser.add_argument('-f', '--fsamp', default=1e6,
+            type=float, help='Sampling freq (hz)')
+
+    parser.add_argument("f_beg", help="Beginning frequency", type=float)
+    parser.add_argument("f_end", help="Ending frequency", type=float)
+    parser.add_argument("t_dur", help="Total duration in msec", type=float)
+    parser.add_argument("s_dur", help="Spike duration in usec", type=float)
+
+    args = parser.parse_args()
+
+    n = int(freq_to_count(args.fsamp, args))
+
+    t = np.arange(n)
+
+    f1 = freq_to_count(args.f_beg, args)
+
+    f2 = freq_to_count(args.f_end, args)
+
+    f = np.linspace(f1, f2, n)
+
+    s = np.sin(2 * np.pi * t *  f / n)
+
+    v = np.zeros(n)
+
+    half = int(args.s_dur / 2)
+
+    for k in signal.find_peaks(s)[0]:
+        lo = max(0, k-half)
+        hi = min(n, k+half+1)
+        v[range(lo, hi)] = args.vmax
+
+    # for tval, vval in zip(t, v):
+    #     print('%fm %d' % (tval, vval))
+
+    if args.plot:
+
+        plt.figure(figsize=(20, 6))
+
+        plt.plot(t / 1000, v)
+        plt.xlabel('Time (msec)')
+
+        plt.ylabel('Volts')
+        plt.show()
+
+
+main()
