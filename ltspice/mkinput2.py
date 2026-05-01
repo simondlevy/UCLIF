@@ -6,10 +6,8 @@ from scipy import signal
 import argparse
 from argparse import ArgumentDefaultsHelpFormatter
 
-DUR_MSEC = 2.0
-
-def freq_to_count(freq):
-    return freq * DUR_MSEC / 1000
+def freq_to_count(freq, args):
+    return freq * args.t_dur / 1000
 
 
 def main():
@@ -28,23 +26,27 @@ def main():
 
     parser.add_argument("f_beg", help="Beginning frequency", type=float)
     parser.add_argument("f_end", help="Ending frequency", type=float)
-    parser.add_argument("s_dur", help="Spike duration in msec", type=float)
+    parser.add_argument("t_dur", help="Total duration in msec", type=float)
+    parser.add_argument("s_dur", help="Spike duration in usec", type=float)
 
     args = parser.parse_args()
 
-    n = int(freq_to_count(args.fsamp))
+    n = int(freq_to_count(args.fsamp, args))
 
     t = np.arange(n)
 
-    f1 = freq_to_count(args.f_beg)
+    f1 = freq_to_count(args.f_beg, args)
 
-    f2 = freq_to_count(args.f_end)
+    f2 = freq_to_count(args.f_end, args)
 
     f = np.linspace(f1, f2, n)
 
     s = np.sin(2 * np.pi * t *  f / n)
 
     p = signal.find_peaks(s)[0]
+
+    for k in p:
+        print(k)
 
     v = np.zeros(n)
     v[p] = args.vmax
