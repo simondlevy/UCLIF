@@ -1,4 +1,4 @@
-input*.txt
+pulse*.txt
 *.log
 *.raw
 *.plt

@@ -24,6 +24,9 @@ def main():
     parser.add_argument('-f', '--fsamp', default=1e6,
             type=float, help='Sampling freq (hz)')
 
+    parser.add_argument('-o', '--outfile', default='pulse.txt',
+            help='Output file name')
+
     parser.add_argument("f_beg", help="Beginning frequency", type=float)
     parser.add_argument("f_end", help="Ending frequency", type=float)
     parser.add_argument("t_dur", help="Total duration in msec", type=float)
@@ -52,8 +55,9 @@ def main():
         hi = min(n, k+half+1)
         v[range(lo, hi)] = args.vmax
 
-    # for tval, vval in zip(t, v):
-    #     print('%fm %d' % (tval, vval))
+    with open(args.outfile, 'w') as fp:
+        for tval, vval in zip(t, v):
+            fp.write('%fm %d\n' % (tval, vval))
 
     if args.plot:
 
