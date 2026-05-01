@@ -6,10 +6,7 @@ from scipy import signal
 import argparse
 from argparse import ArgumentDefaultsHelpFormatter
 
-SAMP_FREQ_HZ = 1e6
 DUR_MSEC = 2.0
-
-SPIKE_DUR_USEC = 50
 
 def freq_to_count(freq):
     return freq * DUR_MSEC / 1000
@@ -26,12 +23,16 @@ def main():
     parser.add_argument('-v', '--vmax', default=3.3,
             type=float, help='Max voltage')
 
+    parser.add_argument('-f', '--fsamp', default=1e6,
+            type=float, help='Sampling freq (hz)')
+
     parser.add_argument("f_beg", help="Beginning frequency", type=float)
     parser.add_argument("f_end", help="Ending frequency", type=float)
+    parser.add_argument("s_dur", help="Spike duration in msec", type=float)
 
     args = parser.parse_args()
 
-    n = int(freq_to_count(SAMP_FREQ_HZ))
+    n = int(freq_to_count(args.fsamp))
 
     t = np.arange(n)
 
