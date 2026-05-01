@@ -43,13 +43,10 @@ def main():
 
     s = np.sin(2 * np.pi * t *  f / n)
 
-    p = signal.find_peaks(s)[0]
-
-    for k in p:
-        print(k)
-
     v = np.zeros(n)
-    v[p] = args.vmax
+
+    for k in signal.find_peaks(s)[0]:
+        v[range(k-1,k+2)] = args.vmax
 
     # for tval, vval in zip(t, v):
     #     print('%fm %d' % (tval, vval))
