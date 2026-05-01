@@ -9,9 +9,6 @@ from argparse import ArgumentDefaultsHelpFormatter
 SAMP_FREQ_HZ = 1e6
 DUR_MSEC = 2.0
 
-FREQ_START_HZ = 5000
-FREQ_END_HZ = 25000
-
 SPIKE_VOLTS = 3.3
 SPIKE_DUR_USEC = 50
 
@@ -22,21 +19,24 @@ def freq_to_count(freq):
 
 def main():
 
-    argparser = argparse.ArgumentParser(
+    parser = argparse.ArgumentParser(
                 formatter_class=ArgumentDefaultsHelpFormatter)
 
-    argparser.add_argument('-p', '--plot', action='store_true',
+    parser.add_argument('-p', '--plot', action='store_true',
                            help='Plot the signal')
 
-    args = argparser.parse_args()
+    parser.add_argument("f_beg", help="Beginning frequency", type=float)
+    parser.add_argument("f_end", help="Ending frequency", type=float)
+
+    args = parser.parse_args()
 
     n = int(freq_to_count(SAMP_FREQ_HZ))
 
     t = np.arange(n)
 
-    f1 = freq_to_count(FREQ_START_HZ)
+    f1 = freq_to_count(args.f_beg)
 
-    f2 = freq_to_count(FREQ_END_HZ)
+    f2 = freq_to_count(args.f_end)
 
     f = np.linspace(f1, f2, n)
 
@@ -47,8 +47,8 @@ def main():
     v = np.zeros(n)
     v[p] = 3.3
 
-    for tval, vval in zip(t, v):
-        print('%fm %d' % (tval, vval))
+    # for tval, vval in zip(t, v):
+    #     print('%fm %d' % (tval, vval))
 
     if args.plot:
         plt.figure(figsize=(20, 6))
