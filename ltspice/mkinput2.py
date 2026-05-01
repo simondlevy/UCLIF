@@ -16,6 +16,10 @@ SPIKE_VOLTS = 3.3
 SPIKE_DUR_USEC = 50
 
 
+def freq_to_count(freq):
+    return freq * DUR_MSEC / 1000
+
+
 def main():
 
     argparser = argparse.ArgumentParser(
@@ -26,13 +30,13 @@ def main():
 
     args = argparser.parse_args()
 
-    n = int(SAMP_FREQ_HZ * DUR_MSEC / 1000)
+    n = int(freq_to_count(SAMP_FREQ_HZ))
 
     t = np.arange(n)
 
-    f1 = FREQ_START_HZ * DUR_MSEC / 1000
+    f1 = freq_to_count(FREQ_START_HZ)
 
-    f2 = FREQ_END_HZ * DUR_MSEC / 1000
+    f2 = freq_to_count(FREQ_END_HZ)
 
     f = np.linspace(f1, f2, n)
 
