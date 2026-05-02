@@ -13,7 +13,9 @@ def freq_to_count(freq, args):
 def main():
 
     parser = argparse.ArgumentParser(
-                formatter_class=ArgumentDefaultsHelpFormatter)
+                formatter_class=ArgumentDefaultsHelpFormatter,
+                description='Make PWL input file for LTSPICE',
+                epilog='Example: mkpwl.py 5000 5000 15 10 -p')
 
     parser.add_argument('-p', '--plot', action='store_true',
                            help='Plot the signal')
