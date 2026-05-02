@@ -57,7 +57,9 @@ def main():
 
     with open(args.outfile, 'w') as fp:
         for tval, vval in zip(t, v):
-            fp.write('%fm %d\n' % (tval, vval))
+            fp.write('%fm %f\n' % (tval/1000, vval))
+
+    print('Wrote ' + args.outfile)
 
     if args.plot:
 
@@ -65,6 +67,8 @@ def main():
 
         plt.plot(t / 1000, v)
         plt.xlabel('Time (msec)')
+
+        plt.xlim([0,1.5])
 
         plt.ylabel('Volts')
         plt.show()
