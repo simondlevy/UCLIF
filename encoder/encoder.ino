@@ -17,9 +17,9 @@ void loop()
         ((1023 - analogRead(INPUT_PIN)) /1023.f) *
         (FREQ_MAX_HZ - FREQ_MIN_HZ);
 
-    printf("%d hz\n", (int)freq_hz);
-
     const uint32_t spike_interval_usec = 1'000'000 / freq_hz;
+
+    printf("%d hz | %lu usec\n", (int)freq_hz, spike_interval_usec);
 
     digitalWrite(OUTPUT_PIN, HIGH);
     delayMicroseconds(SPIKE_DURATION_USEC);
