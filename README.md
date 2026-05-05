@@ -1,4 +1,6 @@
-# uclif
+<img src="media/proto.jpg">
+
+# UCLIF
 Ultra-Compact Leaky-Integrate-and-Fire Neuron
 
 Based on 
