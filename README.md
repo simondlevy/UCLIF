@@ -1,7 +1,6 @@
 <img src="media/proto.jpg">
 
-# UCLIF
-Ultra-Compact Leaky-Integrate-and-Fire Neuron
+# Ultra-Compact Leaky-Integrate-and-Fire Neuron
 
 Based on 
 
@@ -21,4 +20,6 @@ Based on
   url={https://doi.org/10.1038/s41598-019-47348-5}
 }
 ```
+
+Schematic [here](media/schematic.png).
 
