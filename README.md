@@ -21,5 +21,5 @@ Based on
 }
 ```
 
-Schematic [here](media/schematic.png).
+Schematic [here](media/schematic2.png).
 
