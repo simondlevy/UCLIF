@@ -1,4 +1,4 @@
-<img src="media/proto.jpg">
+<a href="https://www.youtube.com/watch?v=YCzNCJgpSKE"><img src="media/proto.jpg"></a>
 
 # Ultra-Compact Leaky-Integrate-and-Fire Neuron
 
