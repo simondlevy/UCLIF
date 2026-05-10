@@ -1,5 +1,5 @@
 pulse:
-	./mkpwl.py 2000 5000 15 10 -p
+	./mkpwl.py 5000 5000 15 10 -p
 
 clean:
 	rm -f *.raw *.log
