@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 '''
-   Python script to generate a .txt file for use as input to the
-   UCLIF neuron
+   Python script to generate a voltage-coded PWL file for use as input to
+   the UCLIF neuron
 
    Copyright (C) 2026 Simon D. Levy
 
@@ -25,6 +25,8 @@ import argparse
 from argparse import ArgumentDefaultsHelpFormatter
 from sys import argv
 
+FSAMP = 1e6
+
 def freq_to_count(freq, args):
     return freq * args.t_dur / 1000
 
@@ -44,32 +46,29 @@ def main():
     parser = argparse.ArgumentParser(
                 formatter_class=ArgumentDefaultsHelpFormatter,
                 description='Make PWL input file for LTSPICE',
-                epilog='Example: %s 5000 10000 15 10 -p' % argv[0])
+                epilog='Example: %s 1 5 15 10 -p' % argv[0])
 
     parser.add_argument('-p', '--plot', action='store_true',
                            help='Plot the signal')
 
     parser.add_argument('-s', '--step', action='store_true',
-                           help=('Step directly from high to low frequency ' +
+                           help=('Step directly from high to low voltage ' +
                                 'at halfway point (no ramp)'))
 
     parser.add_argument('-v', '--vmax', default=3.3,
             type=float, help='Max voltage')
 
-    parser.add_argument('-f', '--fsamp', default=1e6,
-            type=float, help='Sampling freq (hz)')
-
     parser.add_argument('-o', '--outfile', default='pulse.txt',
             help='Output file name')
 
-    parser.add_argument("f_beg", help="Beginning frequency", type=float)
-    parser.add_argument("f_end", help="Ending frequency", type=float)
+    parser.add_argument("v_beg", help="Beginning voltage", type=float)
+    parser.add_argument("v_end", help="Ending voltage", type=float)
     parser.add_argument("t_dur", help="Total duration in msec", type=float)
     parser.add_argument("s_dur", help="Spike duration in usec", type=float)
 
     args = parser.parse_args()
 
-    n = int(freq_to_count(args.fsamp, args))
+    n = int(freq_to_count(FSAMP, args))
 
     t = np.arange(n)
 

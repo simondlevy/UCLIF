@@ -25,6 +25,8 @@ import argparse
 from argparse import ArgumentDefaultsHelpFormatter
 from sys import argv
 
+FSAMP = 1e6
+
 def freq_to_count(freq, args):
     return freq * args.t_dur / 1000
 
@@ -56,9 +58,6 @@ def main():
     parser.add_argument('-v', '--vmax', default=3.3,
             type=float, help='Max voltage')
 
-    parser.add_argument('-f', '--fsamp', default=1e6,
-            type=float, help='Sampling freq (hz)')
-
     parser.add_argument('-o', '--outfile', default='pulse.txt',
             help='Output file name')
 
@@ -69,7 +68,7 @@ def main():
 
     args = parser.parse_args()
 
-    n = int(freq_to_count(args.fsamp, args))
+    n = int(freq_to_count(FSAMP, args))
 
     t = np.arange(n)
 
