@@ -28,6 +28,16 @@ def freq_to_count(freq, args):
     return freq * args.t_dur / 1000
 
 
+def make_spikes(t, f, n, s_dur):
+    s = np.sin(2 * np.pi * t *  f / n)
+    v = np.zeros(n)
+    halfspike = int(s_dur / 2)
+    for k in signal.find_peaks(s)[0]:
+        lo = max(0, k-halfspike)
+        hi = min(n, k+halfspike+1)
+        v[range(lo, hi)] = 1
+    return v
+
 def main():
 
     parser = argparse.ArgumentParser(
@@ -37,6 +47,10 @@ def main():
 
     parser.add_argument('-p', '--plot', action='store_true',
                            help='Plot the signal')
+
+    parser.add_argument('-s', '--step', action='store_true',
+                           help=('Step directly from high to low frequency ' +
+                                'at halfway point (no ramp)'))
 
     parser.add_argument('-v', '--vmax', default=3.3,
             type=float, help='Max voltage')
@@ -62,18 +76,20 @@ def main():
 
     f2 = freq_to_count(args.f_end, args)
 
-    f = np.linspace(f1, f2, n)
+    if args.step:
+        f1 = np.linspace(f1, f1, n)
+        v1 = make_spikes(t, f1, n, args.s_dur)
+        f2 = np.linspace(f2, f2, n)
+        v2 = make_spikes(t, f2, n, args.s_dur)
+        v1 = v1[:n//2]
+        v2 = v2[:n//2]
+        v = np.append(v1, v2)
 
-    s = np.sin(2 * np.pi * t *  f / n)
+    else:
+        f = np.linspace(f1, f2, n)
+        v = make_spikes(t, f, n, args.s_dur)
 
-    v = np.zeros(n)
-
-    half = int(args.s_dur / 2)
-
-    for k in signal.find_peaks(s)[0]:
-        lo = max(0, k-half)
-        hi = min(n, k+half+1)
-        v[range(lo, hi)] = args.vmax
+    v *= args.vmax
 
     with open(args.outfile, 'w') as fp:
         for tval, vval in zip(t, v):
