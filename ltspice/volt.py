@@ -76,7 +76,7 @@ def main():
 
     f = np.linspace(f, f, n)
 
-    v = make_spikes(t, f, n, args.s_dur)
+    v = make_spikes(t, f, n, args.s_dur) * np.linspace(args.v_beg, args.v_end, n)
 
     with open(args.outfile, 'w') as fp:
         for tval, vval in zip(t, v):
