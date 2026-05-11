@@ -55,8 +55,8 @@ def main():
                            help=('Step directly from high to low voltage ' +
                                 'at halfway point (no ramp)'))
 
-    parser.add_argument('-v', '--vmax', default=3.3,
-            type=float, help='Max voltage')
+    parser.add_argument('-f', '--freq', default=2000,
+            type=float, help='Spiking frequency (Hz)')
 
     parser.add_argument('-o', '--outfile', default='pulse.txt',
             help='Output file name')
@@ -72,24 +72,11 @@ def main():
 
     t = np.arange(n)
 
-    f1 = freq_to_count(args.f_beg, args)
+    f = freq_to_count(args.freq, args)
 
-    f2 = freq_to_count(args.f_end, args)
+    f = np.linspace(f, f, n)
 
-    if args.step:
-        f1 = np.linspace(f1, f1, n)
-        v1 = make_spikes(t, f1, n, args.s_dur)
-        f2 = np.linspace(f2, f2, n)
-        v2 = make_spikes(t, f2, n, args.s_dur)
-        v1 = v1[:n//2]
-        v2 = v2[:n//2]
-        v = np.append(v1, v2)
-
-    else:
-        f = np.linspace(f1, f2, n)
-        v = make_spikes(t, f, n, args.s_dur)
-
-    v *= args.vmax
+    v = make_spikes(t, f, n, args.s_dur)
 
     with open(args.outfile, 'w') as fp:
         for tval, vval in zip(t, v):
