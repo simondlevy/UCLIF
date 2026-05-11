@@ -23,6 +23,7 @@ import matplotlib.pyplot as plt
 from scipy import signal
 import argparse
 from argparse import ArgumentDefaultsHelpFormatter
+from sys import argv
 
 def freq_to_count(freq, args):
     return freq * args.t_dur / 1000
@@ -43,7 +44,7 @@ def main():
     parser = argparse.ArgumentParser(
                 formatter_class=ArgumentDefaultsHelpFormatter,
                 description='Make PWL input file for LTSPICE',
-                epilog='Example: mkpwl.py 5000 10000 15 10 -p')
+                epilog='Example: %s 5000 10000 15 10 -p' % argv[0])
 
     parser.add_argument('-p', '--plot', action='store_true',
                            help='Plot the signal')
