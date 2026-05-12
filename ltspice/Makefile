@@ -8,4 +8,4 @@ vramp:
 	./volt.py 3 6 15 10 -p
 
 clean:
-	rm -f *.raw *.log
+	rm -f *.raw *.log *.asy
