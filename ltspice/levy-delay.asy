@@ -6,7 +6,7 @@ PIN -96 0 LEFT 8
 PINATTR PinName input
 PINATTR SpiceOrder 1
 PIN 112 -16 RIGHT 8
-PINATTR PinName LIF
+PINATTR PinName leaky
 PINATTR SpiceOrder 2
 PIN 112 16 RIGHT 8
 PINATTR PinName output
