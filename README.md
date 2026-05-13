@@ -21,5 +21,5 @@ Based on
 }
 ```
 
-Schematic [here](media/schematic2.png).
+Schematic [here](media/schematic2.png). Demo video [here](https://www.youtube.com/watch?v=YCzNCJgpSKE).
 
